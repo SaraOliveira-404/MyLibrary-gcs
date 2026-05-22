@@ -1,0 +1,33 @@
+<aside class="sidebar">
+  <div>
+    <a routerLink="/dashboard" class="brand">
+      <div class="brand-icon">▰</div>
+      <div>
+        <h1>My<span>Library</span></h1>
+        <p>Biblioteca Pessoal</p>
+      </div>
+    </a>
+
+    <nav class="menu">
+      @for (item of items; track item.route) {
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: item.route !== '/relatorios' }"
+          class="menu-link"
+        >
+          <span class="menu-icon">{{ item.icon }}</span>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="user-icon">♙</div>
+    <div>
+      <strong>Biblioteca Pessoal</strong>
+      <span>v1.0</span>
+    </div>
+  </div>
+</aside>

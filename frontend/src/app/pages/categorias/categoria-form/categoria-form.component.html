@@ -1,0 +1,34 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Nova Categoria</h1>
+      <p class="page-subtitle">Cadastre uma categoria para organizar seus livros</p>
+    </div>
+    <a routerLink="/categorias" class="btn btn-outline">Voltar</a>
+  </header>
+
+  @if (erro) { <div class="alert alert-error">{{ erro }}</div> }
+
+  <form class="card panel" [formGroup]="form" (ngSubmit)="salvar()">
+    <div class="form-grid">
+      <div class="form-group full">
+        <label for="nome">Nome</label>
+        <input id="nome" class="input" type="text" formControlName="nome" placeholder="Ex: Ficção Científica">
+        @if (campoInvalido('nome')) { <small>Nome é obrigatório e deve ter até 100 caracteres.</small> }
+      </div>
+
+      <div class="form-group full">
+        <label for="descricao">Descrição</label>
+        <textarea id="descricao" class="textarea" formControlName="descricao" placeholder="Descreva a categoria"></textarea>
+        @if (campoInvalido('descricao')) { <small>Descrição é obrigatória.</small> }
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <a routerLink="/categorias" class="btn btn-outline">Cancelar</a>
+      <button class="btn btn-primary" type="submit" [disabled]="salvando">
+        {{ salvando ? 'Salvando...' : 'Salvar Categoria' }}
+      </button>
+    </div>
+  </form>
+</section>
