@@ -1,0 +1,104 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Livros</h1>
+      <p class="page-subtitle">Gerencie os livros da sua biblioteca</p>
+    </div>
+    <a routerLink="/livros/novo" class="btn btn-primary">＋ Novo Livro</a>
+  </header>
+
+  @if (erro) { <div class="alert alert-error">{{ erro }}</div> }
+  @if (sucesso) { <div class="alert alert-success">{{ sucesso }}</div> }
+
+  <section class="card panel">
+    <h2>Pesquisar e Filtrar</h2>
+    <div class="toolbar">
+      <div class="form-group">
+        <label>Busca</label>
+        <input class="input" type="text" [(ngModel)]="termo" (keyup.enter)="carregarLivros()" placeholder="Buscar por título ou autor...">
+      </div>
+
+      <div class="form-group">
+        <label>Categoria</label>
+        <select class="select" [(ngModel)]="categoriaId" (change)="carregarLivros()">
+          <option [ngValue]="null">Todas</option>
+          @for (categoria of categorias; track categoria.id) {
+            <option [ngValue]="categoria.id">{{ categoria.nome }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Status</label>
+        <select class="select" [(ngModel)]="status" (change)="carregarLivros()">
+          <option [ngValue]="null">Todos</option>
+          <option value="DISPONIVEL">Disponível</option>
+          <option value="EMPRESTADO">Emprestado</option>
+        </select>
+      </div>
+
+      <div class="actions filter-actions">
+        <button class="btn btn-outline" type="button" (click)="carregarLivros()">Buscar</button>
+        <button class="btn btn-outline" type="button" (click)="limparFiltros()">Limpar</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card panel">
+    <h2>Todos os Livros <span>({{ livros.length }})</span></h2>
+
+    @if (carregando) {
+      <app-loading></app-loading>
+    } @else if (livros.length === 0) {
+      <app-empty-state title="Nenhum livro encontrado" message="Cadastre um livro ou altere os filtros."></app-empty-state>
+    } @else {
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Autor</th>
+              <th>ISBN</th>
+              <th>Ano</th>
+              <th>Categoria</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (livro of livrosPaginados; track livro.id) {
+              <tr>
+                <td><strong>{{ livro.titulo }}</strong></td>
+                <td>{{ livro.autor }}</td>
+                <td>{{ livro.isbn }}</td>
+                <td>{{ livro.ano }}</td>
+                <td>{{ livro.categoria }}</td>
+                <td>
+                  <span class="badge" [class.badge-green]="livro.status === 'DISPONIVEL'" [class.badge-red]="livro.status === 'EMPRESTADO'">
+                    {{ livro.status === 'DISPONIVEL' ? 'Disponível' : 'Emprestado' }}
+                  </span>
+                </td>
+                <td>
+                  <div class="actions">
+                    <a [routerLink]="['/livros', livro.id, 'historico']" class="icon-btn" title="Histórico">◎</a>
+                    <a [routerLink]="['/livros/editar', livro.id]" class="icon-btn warning" title="Editar">✎</a>
+                    <button class="icon-btn danger" type="button" (click)="excluir(livro)" title="Excluir">⌫</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <footer class="pagination">
+        <span>Exibindo {{ livrosPaginados.length }} de {{ livros.length }} livros</span>
+        <div class="actions">
+          <button class="btn btn-outline" type="button" (click)="alterarPagina(paginaAtual - 1)" [disabled]="paginaAtual === 1">‹</button>
+          <strong>{{ paginaAtual }} / {{ totalPaginas }}</strong>
+          <button class="btn btn-outline" type="button" (click)="alterarPagina(paginaAtual + 1)" [disabled]="paginaAtual === totalPaginas">›</button>
+        </div>
+      </footer>
+    }
+  </section>
+</section>

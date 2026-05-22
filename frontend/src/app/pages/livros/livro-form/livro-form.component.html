@@ -1,0 +1,61 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">{{ livroId ? 'Editar Livro' : 'Novo Livro' }}</h1>
+      <p class="page-subtitle">Preencha os dados do livro</p>
+    </div>
+    <a routerLink="/livros" class="btn btn-outline">Voltar</a>
+  </header>
+
+  @if (erro) { <div class="alert alert-error">{{ erro }}</div> }
+
+  @if (carregando) {
+    <app-loading></app-loading>
+  } @else {
+    <form class="card panel" [formGroup]="form" (ngSubmit)="salvar()">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="titulo">Título</label>
+          <input id="titulo" class="input" type="text" formControlName="titulo" placeholder="Ex: Dom Quixote">
+          @if (campoInvalido('titulo')) { <small>Título é obrigatório.</small> }
+        </div>
+
+        <div class="form-group">
+          <label for="autor">Autor</label>
+          <input id="autor" class="input" type="text" formControlName="autor" placeholder="Ex: Miguel de Cervantes">
+          @if (campoInvalido('autor')) { <small>Autor é obrigatório.</small> }
+        </div>
+
+        <div class="form-group">
+          <label for="isbn">ISBN</label>
+          <input id="isbn" class="input" type="text" formControlName="isbn" placeholder="978-85-01-06619-3">
+          @if (campoInvalido('isbn')) { <small>ISBN é obrigatório.</small> }
+        </div>
+
+        <div class="form-group">
+          <label for="ano">Ano</label>
+          <input id="ano" class="input" type="number" formControlName="ano" placeholder="2024">
+          @if (campoInvalido('ano')) { <small>Ano inválido.</small> }
+        </div>
+
+        <div class="form-group full">
+          <label for="categoriaId">Categoria</label>
+          <select id="categoriaId" class="select" formControlName="categoriaId">
+            <option [value]="0">Selecione uma categoria</option>
+            @for (categoria of categorias; track categoria.id) {
+              <option [value]="categoria.id">{{ categoria.nome }}</option>
+            }
+          </select>
+          @if (campoInvalido('categoriaId')) { <small>Categoria é obrigatória.</small> }
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a routerLink="/livros" class="btn btn-outline">Cancelar</a>
+        <button class="btn btn-primary" type="submit" [disabled]="salvando">
+          {{ salvando ? 'Salvando...' : 'Salvar Livro' }}
+        </button>
+      </div>
+    </form>
+  }
+</section>

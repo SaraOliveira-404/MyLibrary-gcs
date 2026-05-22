@@ -20,11 +20,11 @@ public class CategoriaController {
         this.categoriaService = categoriaService;
     }
 
-    /*@GetMapping
+    @GetMapping
     public ResponseEntity<List<CategoriaResponseDTO>> listar() {
         return ResponseEntity.ok(categoriaService.listarTodas());
     }
-    
+
     @PostMapping
     public ResponseEntity<CategoriaResponseDTO> criar(@Valid @RequestBody CategoriaRequestDTO request) {
         CategoriaResponseDTO novaCategoria = categoriaService.criar(request);
@@ -36,5 +36,4 @@ public class CategoriaController {
         categoriaService.excluir(id);
         return ResponseEntity.noContent().build();
     }
-    */
 }

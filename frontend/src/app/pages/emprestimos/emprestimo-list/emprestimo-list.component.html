@@ -1,0 +1,103 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Empréstimos</h1>
+      <p class="page-subtitle">Gerencie todos os empréstimos da sua biblioteca</p>
+    </div>
+    <a routerLink="/emprestimos/novo" class="btn btn-primary">＋ Fazer Empréstimo</a>
+  </header>
+
+  @if (erro) { <div class="alert alert-error">{{ erro }}</div> }
+  @if (sucesso) { <div class="alert alert-success">{{ sucesso }}</div> }
+
+  <div class="grid-3 stats">
+    <app-stat-card title="Empréstimos Ativos" [value]="ativos.length + atrasados.length" subtitle="livros emprestados" icon="▯" color="blue"></app-stat-card>
+    <app-stat-card title="Atrasados" [value]="atrasados.length" subtitle="devoluções em atraso" icon="◷" color="orange"></app-stat-card>
+    <app-stat-card title="Devolvidos (mês)" [value]="devolvidosMes" subtitle="empréstimos devolvidos" icon="✓" color="green"></app-stat-card>
+  </div>
+
+  <section class="card panel danger-panel">
+    <h2>⚠ Empréstimos Atrasados <span>({{ atrasados.length }})</span></h2>
+    <p class="section-subtitle">Estes livros estão com a devolução atrasada</p>
+
+    @if (carregando) {
+      <app-loading></app-loading>
+    } @else if (atrasadosFiltrados.length === 0) {
+      <app-empty-state title="Nenhum atraso" message="Não há empréstimos atrasados no momento."></app-empty-state>
+    } @else {
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Livro</th>
+              <th>Emprestado para</th>
+              <th>Telefone</th>
+              <th>Data Empréstimo</th>
+              <th>Devolução Prevista</th>
+              <th>Dias de Atraso</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of atrasadosFiltrados; track item.id) {
+              <tr>
+                <td>{{ item.livroTitulo }}</td>
+                <td>{{ item.nomePessoa }}</td>
+                <td>{{ item.telefone }}</td>
+                <td>{{ item.dataEmprestimo | brDate }}</td>
+                <td>{{ item.dataDevolucaoPrevista | brDate }}</td>
+                <td><span class="badge badge-red">{{ item.diasAtraso }} dias</span></td>
+                <td><button class="btn btn-green small" type="button" (click)="devolver(item)">Devolver</button></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+  <section class="card panel">
+    <div class="section-header">
+      <div>
+        <h2>Empréstimos Ativos <span>({{ ativos.length }})</span></h2>
+        <p class="section-subtitle">Livros emprestados dentro do prazo</p>
+      </div>
+      <input class="input search" type="text" [(ngModel)]="termo" placeholder="Buscar empréstimo...">
+    </div>
+
+    @if (carregando) {
+      <app-loading></app-loading>
+    } @else if (ativosFiltrados.length === 0) {
+      <app-empty-state title="Nenhum empréstimo ativo" message="Use o botão Fazer Empréstimo para registrar um empréstimo."></app-empty-state>
+    } @else {
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Livro</th>
+              <th>Emprestado para</th>
+              <th>Telefone</th>
+              <th>Data Empréstimo</th>
+              <th>Devolução Prevista</th>
+              <th>Tempo Restante</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of ativosFiltrados; track item.id) {
+              <tr>
+                <td>{{ item.livroTitulo }}</td>
+                <td>{{ item.nomePessoa }}</td>
+                <td>{{ item.telefone }}</td>
+                <td>{{ item.dataEmprestimo | brDate }}</td>
+                <td>{{ item.dataDevolucaoPrevista | brDate }}</td>
+                <td><span class="badge badge-green">{{ diasRestantes(item.dataDevolucaoPrevista) }} dias restantes</span></td>
+                <td><button class="btn btn-green small" type="button" (click)="devolver(item)">Devolver</button></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</section>
