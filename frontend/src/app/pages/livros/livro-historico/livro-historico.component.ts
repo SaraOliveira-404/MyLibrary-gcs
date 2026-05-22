@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
-// import { Emprestimo } from '../../../core/models/emprestimo.model';
+import { Emprestimo } from '../../../core/models/emprestimo.model';
 
 import { Livro } from '../../../core/models/livro.model';
 import { LivroService } from '../../../core/services/livro.service';
@@ -12,23 +12,17 @@ import { BrDatePipe } from '../../../shared/pipes/br-date.pipe';
 import { LoadingComponent } from '../../../shared/components/loading/loading.component';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 
-/*@Component({
+@Component({
   selector: 'app-livro-historico',
   standalone: true,
   imports: [RouterLink, BrDatePipe, LoadingComponent, EmptyStateComponent],
   templateUrl: './livro-historico.component.html',
   styleUrl: './livro-historico.component.css'
-})*/
-
-@Component({
-  selector: 'app-livro-historico',
-  standalone: true,
-  imports: [RouterLink, BrDatePipe, LoadingComponent, EmptyStateComponent],
-  template: '',
 })
+
 export class LivroHistoricoComponent implements OnInit {
   livro: Livro | null = null;
-  //historico: Emprestimo[] = [];
+  historico: Emprestimo[] = [];
   carregando = false;
   erro = '';
   
@@ -58,7 +52,7 @@ export class LivroHistoricoComponent implements OnInit {
       }
     });
 
-    /*
+    
       this.livroService.historico(id).subscribe({
         next: (historico) => {
           this.historico = historico;
@@ -69,6 +63,6 @@ export class LivroHistoricoComponent implements OnInit {
           this.carregando = false;
         }
       });
-    */
+    
   }
 }

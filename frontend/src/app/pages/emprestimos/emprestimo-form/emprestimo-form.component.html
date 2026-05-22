@@ -1,0 +1,55 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Fazer Empréstimo</h1>
+      <p class="page-subtitle">Registre um novo empréstimo de livro</p>
+    </div>
+    <a routerLink="/emprestimos" class="btn btn-outline">Voltar</a>
+  </header>
+
+  @if (erro) { <div class="alert alert-error">{{ erro }}</div> }
+
+  @if (carregando) {
+    <app-loading></app-loading>
+  } @else {
+    <form class="card panel" [formGroup]="form" (ngSubmit)="salvar()">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label for="livroId">Livro disponível</label>
+          <select id="livroId" class="select" formControlName="livroId">
+            <option [value]="0">Selecione um livro</option>
+            @for (livro of livrosDisponiveis; track livro.id) {
+              <option [value]="livro.id">{{ livro.titulo }} — {{ livro.autor }}</option>
+            }
+          </select>
+          @if (campoInvalido('livroId')) { <small>Livro é obrigatório.</small> }
+        </div>
+
+        <div class="form-group">
+          <label for="nomePessoa">Nome da pessoa</label>
+          <input id="nomePessoa" class="input" type="text" formControlName="nomePessoa" placeholder="Ex: Ana Clara">
+          @if (campoInvalido('nomePessoa')) { <small>Nome é obrigatório.</small> }
+        </div>
+
+        <div class="form-group">
+          <label for="telefone">Telefone</label>
+          <input id="telefone" class="input" type="text" formControlName="telefone" placeholder="(62) 99999-9999">
+          @if (campoInvalido('telefone')) { <small>Telefone é obrigatório.</small> }
+        </div>
+
+        <div class="form-group full">
+          <label for="dataDevolucaoPrevista">Data de devolução prevista</label>
+          <input id="dataDevolucaoPrevista" class="input" type="date" [min]="hoje" formControlName="dataDevolucaoPrevista">
+          @if (campoInvalido('dataDevolucaoPrevista')) { <small>Data de devolução é obrigatória.</small> }
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a routerLink="/emprestimos" class="btn btn-outline">Cancelar</a>
+        <button class="btn btn-primary" type="submit" [disabled]="salvando || livrosDisponiveis.length === 0">
+          {{ salvando ? 'Salvando...' : 'Confirmar Empréstimo' }}
+        </button>
+      </div>
+    </form>
+  }
+</section>

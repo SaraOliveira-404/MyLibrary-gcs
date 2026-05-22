@@ -1,0 +1,10 @@
+small {
+  color: #ff8a8a;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
