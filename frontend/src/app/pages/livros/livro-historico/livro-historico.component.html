@@ -1,0 +1,50 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Histórico do Livro</h1>
+      <p class="page-subtitle">{{ livro?.titulo || 'Carregando...' }}</p>
+    </div>
+    <a routerLink="/livros" class="btn btn-outline">Voltar</a>
+  </header>
+
+  @if (erro) { <div class="alert alert-error">{{ erro }}</div> }
+
+  <section class="card panel">
+    @if (carregando) {
+      <app-loading></app-loading>
+    } @else if (historico.length === 0) {
+      <app-empty-state title="Nenhum histórico" message="Este livro ainda não possui empréstimos registrados."></app-empty-state>
+    } @else {
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Emprestado para</th>
+              <th>Telefone</th>
+              <th>Data Empréstimo</th>
+              <th>Devolução Prevista</th>
+              <th>Devolução Efetiva</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of historico; track item.id) {
+              <tr>
+                <td>{{ item.nomePessoa }}</td>
+                <td>{{ item.telefone }}</td>
+                <td>{{ item.dataEmprestimo | brDate }}</td>
+                <td>{{ item.dataDevolucaoPrevista | brDate }}</td>
+                <td>{{ item.dataDevolucaoEfetiva | brDate }}</td>
+                <td>
+                  <span class="badge" [class.badge-red]="item.atrasado" [class.badge-green]="item.dataDevolucaoEfetiva" [class.badge-orange]="!item.atrasado && !item.dataDevolucaoEfetiva">
+                    {{ item.dataDevolucaoEfetiva ? 'Devolvido' : item.atrasado ? 'Atrasado' : 'Ativo' }}
+                  </span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</section>

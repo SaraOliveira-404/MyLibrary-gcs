@@ -1,0 +1,24 @@
+h2 {
+  margin: 0 0 20px;
+  font-size: 18px;
+}
+
+h2 span {
+  color: var(--primary-2);
+}
+
+.filter-actions {
+  align-self: end;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--muted);
+  padding-top: 18px;
+}
+
+.pagination strong {
+  color: var(--text);
+}
