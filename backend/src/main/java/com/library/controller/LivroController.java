@@ -1,7 +1,7 @@
 package com.library.controller;
 
 import com.library.dto.request.LivroRequestDTO;
-//import com.library.dto.response.EmprestimoResponseDTO;
+import com.library.dto.response.EmprestimoResponseDTO;
 import com.library.dto.response.LivroResponseDTO;
 import com.library.model.StatusLivro;
 import com.library.service.LivroService;
@@ -61,8 +61,8 @@ public class LivroController {
         return ResponseEntity.noContent().build();
     }
 
-    /*@GetMapping("/{id}/historico")
+    @GetMapping("/{id}/historico")
     public ResponseEntity<List<EmprestimoResponseDTO>> historico(@PathVariable Long id) {
         return ResponseEntity.ok(livroService.historicoEmprestimos(id));
-    }*/
+    }
 }

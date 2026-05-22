@@ -1,20 +1,19 @@
 package com.library.service;
 
 import com.library.dto.request.LivroRequestDTO;
-//import com.library.dto.response.EmprestimoResponseDTO;
+import com.library.dto.response.EmprestimoResponseDTO;
 import com.library.dto.response.LivroResponseDTO;
 import com.library.exception.BusinessException;
 import com.library.exception.NotFoundException;
 import com.library.model.Categoria;
-//import com.library.model.Emprestimo;
+import com.library.model.Emprestimo;
 import com.library.model.Livro;
 import com.library.model.StatusLivro;
 import com.library.repository.CategoriaRepository;
-//import com.library.repository.EmprestimoRepository;
+import com.library.repository.EmprestimoRepository;
 import com.library.repository.LivroRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -24,16 +23,16 @@ public class LivroService {
 
     private final LivroRepository livroRepository;
     private final CategoriaRepository categoriaRepository;
-    //private final EmprestimoRepository emprestimoRepository;
+    private final EmprestimoRepository emprestimoRepository;
 
     public LivroService(
             LivroRepository livroRepository,
-            CategoriaRepository categoriaRepository
-            //EmprestimoRepository emprestimoRepository
+            CategoriaRepository categoriaRepository,
+            EmprestimoRepository emprestimoRepository
     ) {
         this.livroRepository = livroRepository;
         this.categoriaRepository = categoriaRepository;
-        //this.emprestimoRepository = emprestimoRepository;
+        this.emprestimoRepository = emprestimoRepository;
     }
 
     @Transactional
@@ -124,7 +123,7 @@ public class LivroService {
         livroRepository.delete(livro);
     }
 
-    /*@Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public List<EmprestimoResponseDTO> historicoEmprestimos(Long livroId) {
         if (!livroRepository.existsById(livroId)) {
             throw new NotFoundException("Livro não encontrado");
@@ -134,7 +133,7 @@ public class LivroService {
                 .stream()
                 .map(this::toEmprestimoResponseDTO)
                 .toList();
-    }*/
+    }
 
     private Livro buscarLivroEntidade(Long id) {
         return livroRepository.findById(id)
@@ -158,7 +157,7 @@ public class LivroService {
         return dto;
     }
 
-    /*private EmprestimoResponseDTO toEmprestimoResponseDTO(Emprestimo emprestimo) {
+    private EmprestimoResponseDTO toEmprestimoResponseDTO(Emprestimo emprestimo) {
         EmprestimoResponseDTO dto = new EmprestimoResponseDTO();
 
         dto.setId(emprestimo.getId());
@@ -190,5 +189,5 @@ public class LivroService {
         }
 
         return dto;
-    }*/
+    }
 }
