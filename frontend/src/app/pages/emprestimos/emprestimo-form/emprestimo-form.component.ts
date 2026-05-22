@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Livro } from '../../../core/models/livro.model';
@@ -15,8 +15,6 @@ import { LoadingComponent } from '../../../shared/components/loading/loading.com
   styleUrl: './emprestimo-form.component.css'
 })
 export class EmprestimoFormComponent implements OnInit {
-  private readonly fb = inject(FormBuilder);
-
   livrosDisponiveis: Livro[] = [];
   carregando = false;
   salvando = false;
@@ -30,6 +28,7 @@ export class EmprestimoFormComponent implements OnInit {
   });
 
   constructor(
+    private readonly fb: FormBuilder,
     private readonly router: Router,
     private readonly livroService: LivroService,
     private readonly emprestimoService: EmprestimoService
