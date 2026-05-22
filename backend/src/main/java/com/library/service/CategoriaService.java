@@ -20,7 +20,7 @@ public class CategoriaService {
         this.categoriaRepository = categoriaRepository;
     }
 
-    /*@Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public List<CategoriaResponseDTO> listarTodas() {
         return categoriaRepository.findAll()
                 .stream()
@@ -43,7 +43,7 @@ public class CategoriaService {
         return toResponseDTO(salva);
     }
 
-    /*  @Transactional
+    @Transactional
     public void excluir(Long id) {
         Categoria categoria = categoriaRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Categoria não encontrada com o ID informado."));
@@ -66,5 +66,5 @@ public class CategoriaService {
 
         return dto;
     }
-    */
+    
 }
