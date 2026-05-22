@@ -18,8 +18,8 @@ public class Categoria {
 
     private String descricao;
 
-    @OneToMany(mappedBy = "categoria")
-    private List<Livro> livros = new ArrayList<>();
+    //@OneToMany(mappedBy = "categoria")
+    //private List<Livro> livros = new ArrayList<>();
 
     public Categoria() {
     }
@@ -53,11 +53,11 @@ public class Categoria {
         this.descricao = descricao;
     }
 
-    public List<Livro> getLivros() {
-        return livros;
-    }
+    //public List<Livro> getLivros() {
+    //    return livros;
+    //}
 
-    public void setLivros(List<Livro> livros) {
-        this.livros = livros;
-    }
+    //public void setLivros(List<Livro> livros) {
+    //    this.livros = livros;
+    //}
 }
