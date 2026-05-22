@@ -1,0 +1,39 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Categorias</h1>
+      <p class="page-subtitle">Organize seus livros por categoria</p>
+    </div>
+    <a routerLink="/categorias/nova" class="btn btn-primary">＋ Nova Categoria</a>
+  </header>
+
+  @if (erro) { <div class="alert alert-error">{{ erro }}</div> }
+  @if (sucesso) { <div class="alert alert-success">{{ sucesso }}</div> }
+
+  <section class="card panel">
+    <h2>Todas as Categorias <span>({{ categorias.length }})</span></h2>
+
+    @if (carregando) {
+      <app-loading></app-loading>
+    } @else if (categorias.length === 0) {
+      <app-empty-state title="Nenhuma categoria" message="Cadastre categorias como Ficção, Técnico ou Biografia."></app-empty-state>
+    } @else {
+      <div class="category-grid">
+        @for (categoria of categorias; track categoria.id) {
+          <article class="category-card">
+            <div>
+              <span class="category-icon">▱</span>
+              <h3>{{ categoria.nome }}</h3>
+              <p>{{ categoria.descricao }}</p>
+            </div>
+
+            <footer>
+              <span class="badge badge-green">{{ categoria.quantidadeLivros }} livros</span>
+              <button class="icon-btn danger" type="button" (click)="excluir(categoria)" title="Excluir">⌫</button>
+            </footer>
+          </article>
+        }
+      </div>
+    }
+  </section>
+</section>
