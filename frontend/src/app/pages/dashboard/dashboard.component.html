@@ -1,0 +1,102 @@
+<section class="page">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Olá! 👋</h1>
+      <p class="page-subtitle">Bem-vindo à sua biblioteca pessoal</p>
+    </div>
+    <button class="theme-btn" type="button">☾</button>
+  </header>
+
+  @if (erro) {
+    <div class="alert alert-error">{{ erro }}</div>
+  }
+
+  @if (carregando) {
+    <app-loading></app-loading>
+  } @else if (dados) {
+    <div class="grid-3 stats">
+      <app-stat-card title="Total de Livros" [value]="dados.totalLivros" subtitle="livros cadastrados" icon="▰" color="blue"></app-stat-card>
+      <app-stat-card title="Livros Emprestados" [value]="dados.totalEmprestados" subtitle="livros emprestados" icon="▯" color="orange"></app-stat-card>
+      <app-stat-card title="Empréstimos Atrasados" [value]="dados.totalAtrasados" subtitle="devoluções em atraso" icon="!" color="red"></app-stat-card>
+    </div>
+
+    <section class="card panel">
+      <h2>Ações Rápidas</h2>
+      <div class="quick-actions">
+        <a routerLink="/emprestimos/novo" class="quick-card quick-blue">
+          <div class="quick-icon">↗</div>
+          <div>
+            <strong>Fazer Empréstimo</strong>
+            <p>Empreste um livro para um amigo ou familiar.</p>
+            <span>Novo Empréstimo</span>
+          </div>
+        </a>
+
+        <a routerLink="/livros/novo" class="quick-card quick-green">
+          <div class="quick-icon">▰</div>
+          <div>
+            <strong>Cadastrar Novo Livro</strong>
+            <p>Adicione um novo livro à sua biblioteca.</p>
+            <span>Cadastrar Livro</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <div class="grid-2">
+      <section class="card panel">
+        <h2>Últimos Empréstimos</h2>
+
+        @if (dados.ultimosEmprestimos.length === 0) {
+          <app-empty-state title="Nenhum empréstimo" message="Os últimos empréstimos aparecerão aqui."></app-empty-state>
+        } @else {
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Livro</th>
+                  <th>Emprestado para</th>
+                  <th>Data Empréstimo</th>
+                  <th>Devolução Prevista</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (emprestimo of dados.ultimosEmprestimos; track emprestimo.id) {
+                  <tr>
+                    <td>{{ emprestimo.livroTitulo }}</td>
+                    <td>{{ emprestimo.nomePessoa }}</td>
+                    <td>{{ emprestimo.dataEmprestimo | brDate }}</td>
+                    <td>{{ emprestimo.dataDevolucaoPrevista | brDate }}</td>
+                    <td>
+                      <span class="badge" [class.badge-red]="emprestimo.atrasado" [class.badge-green]="!emprestimo.atrasado && !emprestimo.dataDevolucaoEfetiva" [class.badge-orange]="emprestimo.dataDevolucaoEfetiva">
+                        {{ emprestimo.dataDevolucaoEfetiva ? 'Devolvido' : emprestimo.atrasado ? 'Atrasado' : 'Ativo' }}
+                      </span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          <a routerLink="/emprestimos" class="view-all">Ver todos os empréstimos →</a>
+        }
+      </section>
+
+      <section class="card panel">
+        <h2>Resumo da Biblioteca</h2>
+        <div class="summary">
+          <div class="donut" [style.background]="donutStyle"></div>
+          <div class="legend card">
+            <p><span class="dot green"></span> Disponíveis <strong>{{ dados.totalDisponiveis }} ({{ percentualDisponiveis }}%)</strong></p>
+            <p><span class="dot orange"></span> Emprestados <strong>{{ dados.totalEmprestados }} ({{ percentualEmprestados }}%)</strong></p>
+            <p><span class="dot red"></span> Atrasados <strong>{{ dados.totalAtrasados }} ({{ percentualAtrasados }}%)</strong></p>
+          </div>
+        </div>
+        <div class="summary-message">
+          <strong>Mantenha sua biblioteca organizada!</strong>
+          <p>Empreste, leia e compartilhe conhecimento.</p>
+        </div>
+      </section>
+    </div>
+  }
+</section>
