@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1] - 2026-05-22
+
+### Fixed
+- Corrigida validação que permitia excluir livro com status `EMPRESTADO` (#4)
+- Restaurada regra de negócio que permite excluir apenas livros com status `DISPONIVEL`
+- Ajustada validação no frontend para impedir exclusão de livros emprestados
+
 ## [1.0.0] - 2026-05-22
 
 ### Added
@@ -19,9 +26,10 @@
 - DTOs separados em request e response
 - Branch protection configurado no main
 
-## [0.1.0] - 2026-05-21
+## [0.1.0] - 2026-05-22
 ### Added
+
 - Configuração inicial do repositório
-- Estrutura inicial com backend e frontend
+- Estrutura inicial do projeto
 - README inicial
-- Baseline inicial do projeto
+- Baseline inicial
