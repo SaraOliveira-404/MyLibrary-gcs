@@ -18,6 +18,7 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
         FROM Livro l
         WHERE LOWER(l.titulo) LIKE LOWER(CONCAT('%', :termo, '%'))
            OR LOWER(l.autor) LIKE LOWER(CONCAT('%', :termo, '%'))
+           OR LOWER(l.isbn) LIKE LOWER(CONCAT('%', :termo, '%'))
     """)
     List<Livro> searchByTituloOrAutor(@Param("termo") String termo);
 
@@ -33,6 +34,7 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
                 :termo IS NULL
                 OR LOWER(l.titulo) LIKE LOWER(CONCAT('%', :termo, '%'))
                 OR LOWER(l.autor) LIKE LOWER(CONCAT('%', :termo, '%'))
+                OR LOWER(l.isbn) LIKE LOWER(CONCAT('%', :termo, '%'))
             )
     """)
     List<Livro> filtrarLivros(

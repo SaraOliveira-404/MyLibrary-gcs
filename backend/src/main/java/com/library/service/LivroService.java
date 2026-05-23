@@ -112,13 +112,14 @@ public class LivroService {
                 .toList();
     }
 
-    @Transactional  
+    @Transactional
     public void excluir(Long id) {
         Livro livro = buscarLivroEntidade(id);
 
-        // BUG INTENCIONAL:
-        // A validação de status foi removida para simular o erro do hotfix.
-        // Com isso, o sistema tenta excluir livros mesmo quando estão EMPRESTADOS.
+        if (livro.getStatus() == StatusLivro.EMPRESTADO) {
+            throw new BusinessException("Não é possível excluir um livro emprestado");
+        }
+
         livroRepository.delete(livro);
     }
 
